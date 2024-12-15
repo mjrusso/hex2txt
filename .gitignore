@@ -35,3 +35,14 @@ hex2txt-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Ignore artifacts produced when running in Nix shell. These artifacts are not
+# Nix-specific, but are configured as part of the project's Flake's
+# `shellHook`. These include configuration files and scripts related to Mix and
+# Hex, as well as files related to storing shell history for Erlang and IEx.
+.nix-shell/
+
+# Developer-specific extensions for IEx.
+.iex.local.exs
+
+# Livebook notebooks that are not committed to source control.
+*.local.livemd
