@@ -18,6 +18,9 @@ defmodule Hex2txtWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    get "/:package/llms.txt", PageController, :llms_txt
+    get "/:package/:version/llms.txt", PageController, :llms_txt
   end
 
   # Other scopes may use custom stacks.
