@@ -137,6 +137,14 @@ defmodule Hex2context do
   @req Req.new()
   @chunk_retrieval_limit 20
 
+  def ingest_docs(packages_list) when is_list(packages_list) do
+    for {package_name, package_version} <- packages_list do
+      ingest_docs(package_name, package_version)
+    end
+
+    :ok
+  end
+  
   def ingest_docs(package_name, package_version, opts \\ []) do
     force_refresh? = Keyword.get(opts, :force, false)
     already_loaded? = has_docs?(package_name, package_version)
@@ -297,4 +305,23 @@ Hex2context.ingest_docs("elixir", "1.18.0")
 
 ```elixir
 Hex2context.retrieve_docs("elixir", "1.18.0", "product_by")
+```
+
+```elixir
+Hex2context.ingest_docs("phoenix_live_view", "1.0.0")
+```
+
+```elixir
+Hex2context.retrieve_docs("phoenix_live_view", "1.0.0", "js hooks")
+```
+
+```elixir
+Hex2context.ingest_docs([
+  {"phoenix", "1.7.18"},
+  {"phoenix_html", "4.1.1"},
+  {"phoenix_live_view", "1.0.1"},
+  {"flop", "0.26.1"},
+  {"flop_phoenix", "0.23.1"},
+  {"ecto", "3.12.5"}
+])
 ```
