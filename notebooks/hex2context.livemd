@@ -134,6 +134,7 @@ defmodule Hex2context do
 
   @hex2txt "https://hex2txt.fly.dev"
   @req Req.new()
+  @chunk_retrieval_limit 20
 
   def ingest_docs(package_name, package_version, opts \\ []) do
     force_refresh? = Keyword.get(opts, :force, false)
@@ -162,7 +163,7 @@ defmodule Hex2context do
           where: i.package_name == ^package_name,
           where: i.package_version == ^package_version,
           order_by: vec_distance_L2(i.embedding, vec_f32(query_embedding)),
-          limit: 3,
+          limit: ^@chunk_retrieval_limit,
           select: i.doc_chunk
         )
       )
