@@ -128,6 +128,7 @@ end
 
 ```elixir
 defmodule Hex2context do
+  require Logger
   import Ecto.Query
   import SqliteVec.Ecto.Query
   alias Hex2context.Embedding
@@ -142,6 +143,7 @@ defmodule Hex2context do
 
     case {already_loaded?, force_refresh?} do
       {true, false} ->
+        Logger.info("Docs already ingested for #{package_name} v#{package_version}; specify `force: true` to refresh")
         :ok
 
       _ ->
@@ -196,15 +198,26 @@ defmodule Hex2context do
         %TextChunker.Chunk{chunk | text: String.trim(chunk.text)}
       end)
 
-    embeddings = 
-      Nx.Serving.batched_run(
-        Hex2context.EmbeddingServing, 
-        Enum.map(chunks, & &1.text)
-      )
+    chunk_count = Enum.count(chunks)
+
+    Logger.info(
+      "Fetched #{chunk_count} documentation chunks for #{package_name} v#{package_version}"
+    )
+
+    embeddings =
+      chunks
+      |> Enum.map(& &1.text)
+      |> Enum.with_index()
+      |> Enum.map(fn {chunk, index} ->
+        Logger.info("Computing embedding for chunk #{index}/#{chunk_count}...")
+        Nx.Serving.batched_run(Hex2context.EmbeddingServing, chunk)
+      end)
+
+    Logger.info("Finished computing embeddings for #{chunk_count} chunks")
 
     {chunks, embeddings}
   end
-
+  
   defp persist_embeddings({chunks, embeddings}, package_name, package_version) do
     for {%TextChunker.Chunk{text: text}, %{embedding: tensor}} <- Enum.zip(chunks, embeddings) do
       Hex2context.Repo.insert(
