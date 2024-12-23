@@ -12,8 +12,8 @@ Mix.install([
   {:exla, "~> 0.9.0"},
   {:axon, "~> 0.7.0"},
   {:text_chunker, "~> 0.3.1"},
-  {:req, "~> 0.5.8"},
-  {:plug, "~> 1.16"}
+  {:plug, "~> 1.16"},
+  {:hex2txt, path: Path.join(__DIR__, "..")}
 ])
 
 Nx.global_default_backend(EXLA.Backend)
@@ -132,9 +132,6 @@ defmodule Hex2context do
   import SqliteVec.Ecto.Query
   alias Hex2context.Embedding
 
-  @hex2txt "https://hex2txt.fly.dev"
-  @req Req.new()
-
   def ingest_docs(package_name, package_version, opts \\ []) do
     force_refresh? = Keyword.get(opts, :force, false)
     already_loaded? = has_docs?(package_name, package_version)
@@ -185,8 +182,7 @@ defmodule Hex2context do
   end
 
   defp fetch_docs_and_generate_embeddings(package_name, package_version) do
-    url = @hex2txt <> "/" <> package_name <> "/" <> package_version <> "/llms.txt"
-    docs = Req.get!(@req, url: url, http_errors: :raise).body
+    docs = Hex2txt.Generator.generate(package_name, package_version)
 
     chunks =
       docs
