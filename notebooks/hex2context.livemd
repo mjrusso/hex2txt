@@ -152,19 +152,27 @@ defmodule Hex2context do
   end
 
   def retrieve_docs(package_name, package_version, query) do
-    %{embedding: tensor} = Nx.Serving.batched_run(Hex2context.EmbeddingServing, query)
+    with true <- has_docs?(package_name, package_version) do
+      %{embedding: tensor} = Nx.Serving.batched_run(Hex2context.EmbeddingServing, query)
 
-    query_embedding = SqliteVec.Float32.new(tensor)
+      query_embedding = SqliteVec.Float32.new(tensor)
 
-    Hex2context.Repo.all(
-      from(i in Embedding,
-        where: i.package_name == ^package_name,
-        where: i.package_version == ^package_version,
-        order_by: vec_distance_L2(i.embedding, vec_f32(query_embedding)),
-        limit: 3,
-        select: i.doc_chunk
+      doc_chunks = Hex2context.Repo.all(
+        from(i in Embedding,
+          where: i.package_name == ^package_name,
+          where: i.package_version == ^package_version,
+          order_by: vec_distance_L2(i.embedding, vec_f32(query_embedding)),
+          limit: 3,
+          select: i.doc_chunk
+        )
       )
-    )
+
+      {:ok, doc_chunks}
+    else
+      false -> 
+        {:err,
+         "No docs for #{package_name} v#{package_version}; must pre-generate with `Hex2context.ingest_docs/2`"}
+    end
   end
 
   defp has_docs?(package_name, package_version) do
@@ -224,8 +232,17 @@ defmodule Hex2context.API do
 
   get "/:package_name/:package_version" do
     query = conn.params["query"] || ""
-    response = Hex2context.retrieve_docs(package_name, package_version, query)
-    send_resp(conn, 200, response)
+
+    case Hex2context.retrieve_docs(package_name, package_version, query) do
+      {:err, message} ->
+        send_resp(conn, 404, message)
+
+      {:ok, doc_chunks} ->
+        send_resp(conn, 200, doc_chunks |> Enum.join("\n\n"))
+
+      _ ->
+        send_resp(conn, 500, "Unable to retrieve documentation")
+    end
   end
 
   match _ do
@@ -239,6 +256,10 @@ Kino.Proxy.listen(Hex2context.API)
 ```
 
 ## Playground
+
+```elixir
+Hex2context.retrieve_docs("geo", "4.0.0", "WKB")
+```
 
 ```elixir
 Hex2context.ingest_docs("geo", "4.0.1", force: false)
