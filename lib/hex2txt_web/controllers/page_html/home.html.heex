@@ -6,8 +6,7 @@
       <div class="space-y-8">
         <div class="relative mb-12">
           <div class="absolute inset-0 bg-brand transform translate-x-2 translate-y-2"></div>
-          <div class="relative bg-white border-2 border-brand
-            p-6 space-y-8">
+          <div class="relative bg-white border-2 border-brand p-6 space-y-8">
             <h1 class="text-brand flex items-center text-2xl font-black leading-6">
               <kbd>hex2txt</kbd>
             </h1>
@@ -140,6 +139,62 @@
             with the desired package name and
             <code class="bg-gray-100 px-1 rounded">&lt;version&gt;</code>
             with the specific version number.
+          </div>
+        </div>
+
+        <div class="pt-2 -pb-2">
+          <div
+            id="hex2context"
+            class="relative mb-12 transform -rotate-2 hover:rotate-0 transition-all duration-300 ease-in-out"
+          >
+            <div class="absolute inset-0 bg-brand transform translate-x-2 translate-y-2"></div>
+            <div class="relative bg-white border-2 border-brand p-2 space-y-8">
+              <div class="bg-white border border-gray-200 shadow-sm">
+                <div class="p-2">
+                  <div class="bg-white border border-gray-200 shadow-sm">
+                    <div class="p-2">
+                      <div class="bg-white border border-gray-200 shadow-sm">
+                        <div class="p-2">
+                          <div class="bg-white border border-gray-200 shadow-sm">
+                            <div class="p-4 space-y-4">
+                              <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                                Small context windows getting in the way?
+                              </h3>
+                              <p class="text-gray-600 text-sm">
+                                Try <kbd class="font-mono text-brand"><strong>hex2context</strong></kbd>,
+                                a self-contained Livebook notebook that uses
+                                Retrieval-Augmented Generation (RAG) to only
+                                include the most relevant snippets of
+                                documentation.
+                              </p>
+
+                              <p class="text-gray-600 text-sm">
+                                Excluding less-relevant documentation makes
+                                more efficient use of limited context window
+                                sizes (and reduces inference costs, too).
+                              </p>
+
+                              <div class="mt-4">
+                                <a
+                                  href="https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fmjrusso%2Fhex2txt%2Fblob%2Fmain%2Fnotebooks%2Fhex2context.livemd"
+                                  class="inline-block hover:opacity-90 transition-opacity"
+                                >
+                                  <img
+                                    src="https://livebook.dev/badge/v1/blue.svg"
+                                    alt="Run in Livebook"
+                                    class="transform hover:scale-105 transition-transform duration-300"
+                                  />
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -406,8 +461,12 @@ html["meta[property^='og:']"]
                   including information for a subset of modules, or by dropping
                   examples, etc.) Additionally, there may be clever ways to use
                   embeddings to dynamically include only the relevant
-                  components of documentation for the task-at-hand.
+                  components of documentation for the task-at-hand (see, for
+                  example, the <a href="#hex2context" class="text-brand hover:text-blue-700">
+                    <kbd>hex2context</kbd> Livebook</a>, which offers
+                  one potential solution to this problem).
                 </p>
+
                 <p class="text-gray-600">
                   Please
                   <a

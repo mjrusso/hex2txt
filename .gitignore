@@ -46,3 +46,6 @@ npm-debug.log
 
 # Livebook notebooks that are not committed to source control.
 *.local.livemd
+
+# Local sqlite database files.
+hex2context.db*
