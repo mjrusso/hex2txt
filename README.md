@@ -31,7 +31,9 @@ Some examples:
 
 ### `hex2context`
 
-[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fmjrusso%2Fhex2txt%2Fblob%2Fmain%2Fnotebooks%2Fhex2context.livemd).
+Run the notebook directly by clicking on this badge:
+
+[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fmjrusso%2Fhex2txt%2Fblob%2Fmain%2Fnotebooks%2Fhex2context.livemd)
 
 ## License
 
