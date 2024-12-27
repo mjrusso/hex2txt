@@ -12,11 +12,12 @@
         elixir = pkgs.elixir;
         elixir-ls = pkgs.elixir-ls;
         next-ls = pkgs.next-ls;
+        lexical = pkgs.lexical;
         node = pkgs.nodejs_20;
 
         base-packages = [ elixir pkgs.git node pkgs.just ];
 
-        elixir-language-servers = [ elixir-ls next-ls ];
+        elixir-language-servers = [ elixir-ls next-ls lexical ];
 
         base-scripts = [ ];
 
