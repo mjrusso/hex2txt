@@ -3,26 +3,20 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    next-ls = {
-      url = "github:elixir-tools/next-ls";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, next-ls }:
+  outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        erlang = pkgs.beam.interpreters.erlang_27;
-        pkgs-beam = pkgs.beam.packagesWith erlang;
-        elixir = pkgs-beam.elixir_1_17;
-        elixir-ls = pkgs-beam.elixir-ls;
+        elixir = pkgs.elixir;
+        elixir-ls = pkgs.elixir-ls;
+        next-ls = pkgs.next-ls;
         node = pkgs.nodejs_20;
 
-        base-packages = [ erlang elixir pkgs.git node pkgs.just ];
+        base-packages = [ elixir pkgs.git node pkgs.just ];
 
-        elixir-language-servers =
-          [ elixir-ls next-ls.packages.${system}.default ];
+        elixir-language-servers = [ elixir-ls next-ls ];
 
         base-scripts = [ ];
 

@@ -47,7 +47,7 @@ iexc:
 print-versions: print-erlang-version print-elixir-version print-node-version
 
 print-erlang-version:
-    erl -eval '{ok, Version} = file:read_file(filename:join([code:root_dir(), "releases", erlang:system_info(otp_release), "OTP_VERSION"])), io:fwrite(Version), halt().' -noshell
+    elixir -e 'IO.puts(System.otp_release)'
 
 print-elixir-version:
     elixir -e 'IO.puts(System.version)'
