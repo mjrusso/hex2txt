@@ -11,13 +11,12 @@
         pkgs = nixpkgs.legacyPackages.${system};
         elixir = pkgs.elixir;
         elixir-ls = pkgs.elixir-ls;
-        next-ls = pkgs.next-ls;
-        lexical = pkgs.lexical;
-        node = pkgs.nodejs_20;
+        expert = pkgs.beamPackages.expert;
+        node = pkgs.nodejs_22;
 
         base-packages = [ elixir pkgs.git node pkgs.just ];
 
-        elixir-language-servers = [ elixir-ls next-ls lexical ];
+        elixir-language-servers = [ elixir-ls expert ];
 
         base-scripts = [ ];
 
@@ -42,11 +41,7 @@
             (with pkgs; [ inotify-tools libnotify ])
 
             ++ pkgs.lib.optionals pkgs.stdenv.isDarwin
-            (with pkgs.darwin.apple_sdk.frameworks; [
-              pkgs.terminal-notifier
-              CoreFoundation
-              CoreServices
-            ]);
+            [ pkgs.terminal-notifier ];
 
           shellHook = ''
             export PATH=$PWD/assets/node_modules/.bin:$PATH
