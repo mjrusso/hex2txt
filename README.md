@@ -3,6 +3,13 @@
 Convert documentation for [hex.pm packages](https://hex.pm) to [`/llms.txt`
 files](https://llmstxt.org).
 
+> [!NOTE]
+>
+> ExDoc now generates `llms.txt` file by default. As of [ExDoc
+> v0.40.0](https://hexdocs.pm/ex_doc/changelog.html) (January 2026), every
+> project's docs include a machine-readable Markdown build and an `llms.txt`
+> document, plus a "Copy Markdown" button on every page.
+
 ## Why?
 
 The LLM you're using to help with development might not know about the

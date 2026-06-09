@@ -30,6 +30,32 @@
           </div>
         </div>
 
+        <div class="relative mb-12">
+          <div class="absolute inset-0 bg-amber-500 transform translate-x-2 translate-y-2"></div>
+          <div class="relative bg-amber-50 border-2 border-amber-500 p-5 space-y-3">
+            <div class="flex items-center gap-2">
+              <h2 class="text-amber-700 text-lg font-black uppercase tracking-wide">
+                Deprecated
+              </h2>
+            </div>
+            <p class="text-sm text-zinc-800 leading-6">
+              Great news: the ecosystem now provides an amazing set of tools,
+              obviating (most of) the need for <kbd>hex2txt</kbd>. For example,
+              ExDoc generates <kbd>/llms.txt</kbd> files by default.
+            </p>
+            <p class="text-sm text-zinc-800 leading-6">
+              That said, <strong><kbd>hex2txt</kbd></strong> is still useful in
+              certain (limited) scenarios and will be available indefinitely.
+            </p>
+            <a
+              href="#still-needed"
+              class="inline-block text-sm font-semibold text-amber-800 underline hover:text-amber-900"
+            >
+              Read more in the FAQ →
+            </a>
+          </div>
+        </div>
+
         <h2 class="text-2xl font-bold mb-2 text-center text-brand">
           Usage Details
         </h2>
@@ -203,6 +229,96 @@
             FAQ
           </h2>
           <div class="space-y-6">
+            <div id="still-needed" class="bg-amber-50 border-2 border-amber-500 shadow-sm">
+              <div class="p-4 space-y-2">
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                  Is <kbd>hex2txt</kbd> still needed?
+                </h3>
+
+                <p>
+                  No, not really!
+                </p>
+                <p>
+                  ExDoc and HexDocs natively provide more features
+                  than <kbd>hex2txt</kbd>:
+                </p>
+
+                <ul class="list-disc pl-5 space-y-2">
+                  <li>
+                    <strong>ExDoc now generates <kbd>llms.txt</kbd> by
+                      default.</strong>
+                    As of
+                    <a
+                      href="https://hexdocs.pm/ex_doc/changelog.html"
+                      class="text-brand hover:text-blue-700"
+                    >
+                      ExDoc v0.40.0
+                    </a>
+                    (January 2026), ExDoc generates an <kbd>llms.txt</kbd>
+                    file
+                    and outputs documentation in Markdown format. (The new
+                    "Copy Markdown" button on every page is a nice quality of
+                    life improvement, too!)
+                  </li>
+                  <li>
+                    <strong>HexDocs serves these Markdown files.</strong>
+                    For packages built with ExDoc v0.40.0 and above, you can fetch
+                    <kbd>https://hexdocs.pm/&lt;package&gt;/llms.txt</kbd>
+                    (e.g. <a
+                      href="https://hexdocs.pm/phoenix_live_view/llms.txt"
+                      class="text-brand hover:text-blue-700"
+                    >
+                      https://hexdocs.pm/phoenix_live_view/llms.txt
+                    </a>), or append
+                    <kbd>.md</kbd>
+                    to any docs page
+                    (e.g. <a
+                      href="https://hexdocs.pm/ecto/Ecto.md"
+                      class="text-brand hover:text-blue-700"
+                    >https://hexdocs.pm/ecto/Ecto.md</a>) to get the raw
+                    Markdown. You can also pull the same artifacts offline
+                    with <kbd>mix hex.docs fetch &lt;package&gt;</kbd>.
+                  </li>
+                </ul>
+
+                <p>
+                  Furthermore, the wider ecosystem provides additional tooling
+                  that is designed to be used natively with coding harnesses.
+                  For example, check out the
+                  <a href="https://hexdocs.pm/usage_rules/" class="text-brand hover:text-blue-700">
+                    usage_rules
+                  </a>
+                  library and MCP servers like
+                  <a href="https://hexdocs.pm/tidewave" class="text-brand hover:text-blue-700">
+                    Tidewave
+                  </a>
+                  and <a
+                    href="https://hexdocs.pm/hexdocs_mcp/"
+                    class="text-brand hover:text-blue-700"
+                  >HexDocs MCP</a>.
+                  The
+                  new
+                  <a
+                    href="https://hex.pm/blog/announcing-new-hexdocs-search-engine"
+                    class="text-brand hover:text-blue-700"
+                  >
+                    HexDocs search
+                    engine
+                  </a>
+                  is also really handy.
+                </p>
+                <p>
+                  All that being said, <kbd>hex2txt</kbd> is still occasionally
+                  useful, for example as a fallback for docs published with
+                  older versions of ExDoc, or if you happen to need a single
+                  standalone text file with all documentation for a given
+                  package (ExDoc-produced <kbd>/llms.txt</kbd> files are an
+                  index, generally requiring multiple fetches to get all
+                  content).
+                </p>
+              </div>
+            </div>
+
             <div class="bg-white border border-gray-200 shadow-sm">
               <div class="p-4">
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">
@@ -436,6 +552,36 @@ html["meta[property^='og:']"]
                   prototype and collecting community feedback is the best way
                   to determine how useful this feature is and to inform
                   requirements.
+                </p>
+                <p class="text-gray-600 bg-gray-200">
+                  <strong>Update:</strong>
+                  It now is! As of
+                  <a
+                    href="https://hexdocs.pm/ex_doc/changelog.html"
+                    class="text-brand hover:text-blue-700"
+                  >
+                    ExDoc v0.40.0
+                  </a>
+                  (January 2026), ExDoc generates an <kbd>llms.txt</kbd>
+                  document and per-page Markdown by default (and adds a
+                  "Copy Markdown" button to every page), and HexDocs
+                  serves them automatically. See also
+                  <a
+                    href="https://github.com/elixir-lang/ex_doc/pull/1976"
+                    class="text-brand hover:text-blue-700"
+                  >
+                    elixir-lang/ex_doc#1976
+                  </a>
+                  (by <a class="text-brand hover:text-blue-700" href="https://mayel.space">
+                    Mayel de Borniol</a>)
+                  and
+                  <a
+                    href="https://github.com/elixir-lang/ex_doc/issues/2098"
+                    class="text-brand hover:text-blue-700"
+                  >
+                    issue #2098
+                  </a>
+                  for the original iteration and discussion.
                 </p>
               </div>
             </div>
